@@ -122,13 +122,13 @@
             border-style: solid !important;
             border-color: #C5A880 !important;
             padding: 22px !important; /* 24px minus the 2px extra border */
-            box-shadow: 0 10px 30px -10px rgba(197, 168, 128, 0.45);
+            box-shadow: 0 8px 24px -12px rgba(197, 168, 128, 0.25);
         }
 
         /* Selected Phase Infinity card: crimson border in light mode only (Phases 01-03 stay gold) */
         html:not(.dark) #phase-card-inf.phase-selected {
             border-color: #80142B !important;
-            box-shadow: 0 8px 24px -10px rgba(128, 20, 43, 0.35);
+            box-shadow: 0 8px 24px -12px rgba(128, 20, 43, 0.2);
         }
 
         /* Scenario tab caret */
@@ -138,6 +138,27 @@
             border-left: 6px solid transparent; border-right: 6px solid transparent;
             border-top: 6px solid #C5A880;
         }
+
+        /* Selected ecosystem card: gold shadow + pointer to the detail panel */
+        .phase-card.phase-selected {
+            box-shadow: 0 10px 24px -14px rgba(197, 168, 128, 0.32);
+        }
+        .phase-card.phase-selected::after {
+            content: '';
+            position: absolute; left: 50%; bottom: -12px; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 9px solid transparent; border-right: 9px solid transparent;
+            border-top: 10px solid #C5A880;
+        }
+
+        /* Phase Infinity pointer: crimson in light mode only */
+        html:not(.dark) #phase-card-inf.phase-selected::after {
+            border-top-color: #80142B;
+        }
+
+        /* Softer glows in dark mode */
+        html.dark .pricing-card.is-selected { box-shadow: 0 8px 24px -12px rgba(197, 168, 128, 0.1); }
+        html.dark .phase-card.phase-selected { box-shadow: 0 10px 24px -14px rgba(197, 168, 128, 0.12); }
     </style>
 </head>
 <body class="bg-brand-sand text-brand-textDark dark:bg-brand-darkBg dark:text-neutral-200 antialiased pt-20 transition-colors duration-300">
@@ -168,12 +189,12 @@
                 <!-- Action Button & Theme Toggle -->
                 <div class="flex items-center space-x-3">
                     <button id="theme-toggle" onclick="toggleTheme()" class="p-2 rounded-lg bg-white/80 dark:bg-neutral-800 text-brand-textMuted dark:text-neutral-300 border border-brand-border dark:border-brand-darkBorder hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Toggle Light/Dark Mode">
-                        <svg id="sun-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z"/></svg>
-                        <svg id="moon-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                        <svg id="sun-icon" class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z"/></svg>
+                        <svg id="moon-icon" class="w-4 h-4 dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
                     </button>
 
                     <button onclick="openModal()" class="hidden sm:inline-flex items-center px-4 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase bg-brand-gold hover:bg-brand-goldHover text-brand-goldDarkText transition-all shadow-sm">
-                        <svg class="w-3.5 h-3.5 mr-1.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6.707 6.707a1 1 0 00-1.414-1.414L9 11.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        <svg class="w-3.5 h-3.5 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><rect x="9" y="2.5" width="6" height="3.5" rx="1.2"/><path d="M9 14l2.2 2.2L15.5 12"/></svg>
                         Readiness Check
                     </button>
 
@@ -194,7 +215,7 @@
             <a href="#value" onclick="toggleMobileMenu()" class="block text-xs font-semibold tracking-wider hover:text-brand-gold">VALUE</a>
             <a href="#faq" onclick="toggleMobileMenu()" class="block text-xs font-semibold tracking-wider hover:text-brand-gold">FAQ</a>
             <button onclick="openModal(); toggleMobileMenu();" class="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase bg-brand-gold text-brand-goldDarkText">
-                <svg class="w-3.5 h-3.5 mr-1.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6.707 6.707a1 1 0 00-1.414-1.414L9 11.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <svg class="w-3.5 h-3.5 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><rect x="9" y="2.5" width="6" height="3.5" rx="1.2"/><path d="M9 14l2.2 2.2L15.5 12"/></svg>
                 Readiness Check
             </button>
         </div>
@@ -203,6 +224,7 @@
     <!-- HERO SECTION -->
     <section class="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
         <div class="inline-flex items-center space-x-2 px-5 py-1.5 rounded-full border border-[#D8C9AE] dark:border-brand-gold/40 bg-brand-goldLight dark:bg-brand-gold/20 text-[#5C4825] dark:text-brand-gold text-[11px] uppercase tracking-[0.2em] font-semibold mb-6">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
             <span>INVITATION ONLY • POST-PROGRAM HEALTH CONTINUITY</span>
         </div>
 
@@ -217,7 +239,7 @@
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button onclick="openModal()" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl bg-brand-gold hover:bg-brand-goldHover text-brand-goldDarkText font-bold text-sm sm:text-base tracking-wide transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
-                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6.707 6.707a1 1 0 00-1.414-1.414L9 11.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><rect x="9" y="2.5" width="6" height="3.5" rx="1.2"/><path d="M9 14l2.2 2.2L15.5 12"/></svg>
                 Start Readiness Check
             </button>
             <a href="#levels" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold text-brand-textDark dark:text-neutral-200 font-semibold text-sm sm:text-base tracking-wide transition-all bg-white dark:bg-brand-darkCard text-center shadow-xs hover:shadow-md hover:-translate-y-0.5">
@@ -236,84 +258,64 @@
             </p>
         </div>
 
-        <!-- 3 Phase Cards Layout Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-            <!-- Phase 01 Card -->
-            <div id="phase-card-1" onclick="selectPhase('1')" class="cursor-pointer rounded-2xl p-6 bg-brand-cardBg dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-brand-sand dark:bg-neutral-800 text-brand-textMuted uppercase tracking-wider">Phase 01</span>
-                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        <!-- Phase Cards (4 across, compact) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-9">
+            <div id="phase-card-1" onclick="selectPhase('1')" class="phase-card relative cursor-pointer rounded-2xl p-5 bg-brand-cardBg dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.15em] text-brand-gold">Phase 01</span>
+                    <span class="w-9 h-9 rounded-full border border-[#E6CDD2] dark:border-brand-darkBorder flex items-center justify-center flex-shrink-0 text-brand-crimson dark:text-brand-gold"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></span>
                 </div>
-                <h3 class="text-xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Clarity Experience</h3>
-                <p class="text-sm text-brand-textMuted dark:text-neutral-400 mb-4 leading-relaxed">The entry point. Birth-to-present biological audit.</p>
-                <span class="text-sm font-semibold text-brand-gold inline-flex items-center">
-                    See the full picture <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </span>
+                <h3 class="text-lg sm:text-xl font-serif font-bold text-brand-textDark dark:text-white mb-1.5 leading-snug">The Clarity Experience</h3>
+                <p class="text-sm text-brand-textMuted dark:text-neutral-400 leading-relaxed">The entry point. Birth-to-present biological audit.</p>
             </div>
-
-            <!-- Phase 02 Card -->
-            <div id="phase-card-2" onclick="selectPhase('2')" class="cursor-pointer rounded-2xl p-6 bg-brand-cardBg dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-brand-sand dark:bg-neutral-800 text-brand-textMuted uppercase tracking-wider">Phase 02</span>
-                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <div id="phase-card-2" onclick="selectPhase('2')" class="phase-card relative cursor-pointer rounded-2xl p-5 bg-brand-cardBg dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.15em] text-brand-gold">Phase 02</span>
+                    <span class="w-9 h-9 rounded-full border border-[#E6CDD2] dark:border-brand-darkBorder flex items-center justify-center flex-shrink-0 text-brand-crimson dark:text-brand-gold"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></span>
                 </div>
-                <h3 class="text-xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Precision Alignment</h3>
-                <p class="text-sm text-brand-textMuted dark:text-neutral-400 mb-4 leading-relaxed">The deep work. Aligning pathways & minerals.</p>
-                <span class="text-sm font-semibold text-brand-gold inline-flex items-center">
-                    Align the systems <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </span>
+                <h3 class="text-lg sm:text-xl font-serif font-bold text-brand-textDark dark:text-white mb-1.5 leading-snug">The Precision Alignment</h3>
+                <p class="text-sm text-brand-textMuted dark:text-neutral-400 leading-relaxed">The deep work. Aligning pathways & minerals.</p>
             </div>
-
-            <!-- Phase 03 Card -->
-            <div id="phase-card-3" onclick="selectPhase('3')" class="cursor-pointer rounded-2xl p-6 bg-brand-cardBg dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-brand-sand dark:bg-neutral-800 text-brand-textMuted uppercase tracking-wider">Phase 03</span>
-                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"/></svg>
+            <div id="phase-card-3" onclick="selectPhase('3')" class="phase-card relative cursor-pointer rounded-2xl p-5 bg-brand-cardBg dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.15em] text-brand-gold">Phase 03</span>
+                    <span class="w-9 h-9 rounded-full border border-[#E6CDD2] dark:border-brand-darkBorder flex items-center justify-center flex-shrink-0 text-brand-crimson dark:text-brand-gold"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 11l7-7 7 7M5 19l7-7 7 7"/></svg></span>
                 </div>
-                <h3 class="text-xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Ascension Path</h3>
-                <p class="text-sm text-brand-textMuted dark:text-neutral-400 mb-4 leading-relaxed">The mastery. Long-term optimisation.</p>
-                <span class="text-sm font-semibold text-brand-gold inline-flex items-center">
-                    Master the long game <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </span>
+                <h3 class="text-lg sm:text-xl font-serif font-bold text-brand-textDark dark:text-white mb-1.5 leading-snug">The Ascension Path</h3>
+                <p class="text-sm text-brand-textMuted dark:text-neutral-400 leading-relaxed">The mastery. Long-term optimisation.</p>
             </div>
-        </div>
-
-        <!-- Phase Infinity Centered Directly Under Phase 02 (Matches PDF Pages 2-5) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-            <div id="phase-card-inf" onclick="selectPhase('inf')" class="md:col-start-2 cursor-pointer rounded-2xl p-6 bg-white dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
-                <div class="flex justify-between items-start mb-3">
-                    <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-brand-goldLight dark:bg-brand-gold/20 text-[#5C4825] dark:text-brand-gold uppercase tracking-wider">Phase <span class="inline-inf">∞</span></span>
-                    <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.178 8c5.096 0 5.096 8 0 8-2.73 0-4.298-2.18-6.178-4-1.88 1.82-3.448 4-6.178 4-5.096 0-5.096-8 0-8 2.73 0 4.298 2.18 6.178 4 1.88-1.82 3.448-4 6.178-4z"/></svg>
+            <div id="phase-card-inf" onclick="selectPhase('inf')" class="phase-card relative cursor-pointer rounded-2xl p-5 bg-white dark:bg-brand-darkCard border-2 border-brand-border dark:border-brand-darkBorder hover:border-brand-gold transition-all shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.15em] text-brand-crimson dark:text-brand-gold">Phase <span class="inline-inf">∞</span></span>
+                    <span class="w-9 h-9 rounded-full border border-[#E6CDD2] dark:border-brand-darkBorder flex items-center justify-center flex-shrink-0 text-brand-crimson dark:text-brand-gold"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.178 8c5.096 0 5.096 8 0 8-2.73 0-4.298-2.18-6.178-4-1.88 1.82-3.448 4-6.178 4-5.096 0-5.096-8 0-8 2.73 0 4.298 2.18 6.178 4 1.88-1.82 3.448-4 6.178-4z"/></svg></span>
                 </div>
-                <h3 class="text-xl font-serif font-bold text-brand-textDark dark:text-white mb-1.5">The Inner Circle</h3>
-                <p class="text-sm text-brand-textMuted dark:text-neutral-400 mb-3 leading-relaxed">The continuity. Retained access after any programme.</p>
-                <span class="text-sm font-semibold text-brand-gold inline-flex items-center">
-                    Stay connected for life <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </span>
+                <h3 class="text-lg sm:text-xl font-serif font-bold text-brand-textDark dark:text-white mb-1.5 leading-snug">The Inner Circle</h3>
+                <p class="text-sm text-brand-textMuted dark:text-neutral-400 leading-relaxed">The continuity. Retained access after any programme.</p>
             </div>
         </div>
 
         <!-- Phase Detail Inspector Box -->
-        <div id="phase-detail-box" class="min-h-[220px] rounded-2xl p-6 sm:p-8 bg-white dark:bg-brand-darkCard border border-brand-border dark:border-brand-darkBorder transition-all shadow-sm">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b border-brand-border dark:border-brand-darkBorder">
+        <div id="phase-detail-box" class="min-h-[200px] rounded-2xl p-6 sm:p-8 bg-white dark:bg-brand-darkCard border-2 border-brand-gold/50 transition-all shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-start mb-6 pb-4 border-b border-brand-border dark:border-brand-darkBorder">
                 <div>
                     <span id="detail-tag" class="text-xs font-bold text-brand-gold uppercase tracking-[0.2em] block mb-1">PHASE ∞ - CONTINUITY</span>
                     <h4 id="detail-title" class="text-2xl font-serif font-bold text-brand-textDark dark:text-white">The Inner Circle</h4>
                 </div>
-                <span id="detail-badge" class="mt-2 sm:mt-0 text-sm text-brand-textMuted dark:text-neutral-400 font-medium">
-                    Retained Access & Peace of Mind
-                </span>
+                <div class="mt-3 sm:mt-0 sm:text-right">
+                    <span class="block text-xs text-brand-textMuted dark:text-neutral-400 mb-0.5">Service positioning</span>
+                    <span id="detail-badge" class="text-sm sm:text-base font-bold text-brand-crimson dark:text-brand-gold">Retained Access & Peace of Mind</span>
+                </div>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <h5 class="text-xs uppercase tracking-wider text-brand-textMuted dark:text-neutral-400 font-bold mb-2">CORE FOCUS</h5>
+                    <h5 class="text-xs uppercase tracking-wider text-brand-gold font-bold mb-2">CORE FOCUS</h5>
                     <p id="detail-focus" class="text-sm sm:text-base text-brand-textDark dark:text-neutral-300 leading-relaxed">
                         Evergreen retained partnership providing asynchronous access, regular lab interpretations, and immediate triage when health anomalies arise.
                     </p>
                 </div>
                 <div>
-                    <h5 class="text-xs uppercase tracking-wider text-brand-textMuted dark:text-neutral-400 font-bold mb-2">KEY OUTCOMES</h5>
+                    <h5 class="text-xs uppercase tracking-wider text-brand-gold font-bold mb-2">KEY OUTCOMES</h5>
                     <ul id="detail-outcomes" class="space-y-1.5 text-sm sm:text-base text-brand-textDark dark:text-neutral-300">
                         <li class="flex items-start"><span class="text-brand-gold mr-2">•</span> Twice-daily message review window (11am & 4pm SGT, Mon–Fri, ex. Singapore Public Holidays)</li>
                         <li class="flex items-start"><span class="text-brand-gold mr-2">•</span> Prevent Google anxiety & unnecessary medical visits</li>
@@ -423,7 +425,7 @@
             <!-- Level 1: The Access -->
             <div tabindex="0" data-plan="access" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border border-brand-border dark:border-brand-darkBorder flex flex-col justify-between shadow-sm">
                 <div>
-                    <span class="text-xs font-bold text-brand-textMuted uppercase tracking-wider block mb-1">LEVEL 01</span>
+                    <span class="text-xs font-bold text-brand-gold uppercase tracking-wider block mb-1">LEVEL 01</span>
                     <h3 class="text-2xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Access</h3>
                     <p class="text-sm text-brand-textMuted dark:text-neutral-400 mb-6 leading-relaxed">
                         Retained asynchronous clinical lifeline. Peace of mind for when something feels off.
@@ -448,13 +450,13 @@
             </div>
 
             <!-- Level 2: The Reserve (MOST SELECTED) -->
-            <div tabindex="0" data-plan="reserve" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border-2 border-brand-gold flex flex-col justify-between relative shadow-md">
+            <div tabindex="0" data-plan="reserve" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border border-brand-border dark:border-brand-darkBorder flex flex-col justify-between relative shadow-sm">
                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-md bg-brand-gold text-brand-goldDarkText text-xs font-bold uppercase tracking-wider">
                     MOST SELECTED
                 </div>
 
                 <div>
-                    <span class="text-xs font-bold text-brand-gold uppercase tracking-wider block mb-1 mt-1">LEVEL 02</span>
+                    <span class="text-xs font-bold text-brand-gold uppercase tracking-wider block mb-1">LEVEL 02</span>
                     <h3 class="text-2xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Reserve</h3>
                     <p class="text-sm text-brand-textMuted dark:text-neutral-400 mb-6 leading-relaxed">
                         Elevated partnership. Includes async lifeline plus structured clinical lab check-ins.
@@ -481,7 +483,7 @@
             <!-- Level 3: The Sanctuary -->
             <div tabindex="0" data-plan="sanctuary" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border border-brand-border dark:border-brand-darkBorder flex flex-col justify-between shadow-sm">
                 <div>
-                    <span class="text-xs font-bold text-brand-textMuted uppercase tracking-wider block mb-1">LEVEL 03</span>
+                    <span class="text-xs font-bold text-brand-gold uppercase tracking-wider block mb-1">LEVEL 03</span>
                     <h3 class="text-2xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Sanctuary</h3>
                     <p class="text-sm text-brand-textMuted dark:text-neutral-400 mb-6 leading-relaxed">
                         Boutique high-touch concierge for complex cases and maximum peace of mind.
@@ -506,6 +508,8 @@
                 </button>
             </div>
         </div>
+
+        <p class="text-center text-xs text-brand-textMuted dark:text-neutral-400 mt-6">All lab re-interpretations and consultations refresh each membership year, and unused ones do not carry over.</p>
     </section>
 
     <!-- VALUE EQUATION SECTION -->
@@ -626,13 +630,14 @@
                     <div class="space-y-4">
                         <div>
                             <p class="font-semibold text-brand-textDark dark:text-white">Level 02 — The Reserve</p>
-                            <p>Includes 4 lab re-interpretations through a functional medicine lens per calendar year, plus 2 × 30-minute 1:1 deep-dive consultations.</p>
+                            <p>Includes 4 lab re-interpretations, plus 2 × 30-minute 1:1 deep-dive consultations.</p>
                         </div>
                         <div>
                             <p class="font-semibold text-brand-textDark dark:text-white">Level 03 — The Sanctuary</p>
-                            <p>Includes 6 lab re-interpretations through a functional medicine lens per calendar year, plus 6 × 30-minute 1:1 strategy sessions.</p>
+                            <p>Includes 6 lab re-interpretations, plus 6 × 30-minute private strategy sessions for you and your family members.</p>
                         </div>
                     </div>
+                    <p class="mt-4 text-sm text-brand-textMuted dark:text-neutral-400">All lab re-interpretations and consultations refresh each membership year, and unused ones do not carry over.</p>
                 </div>
             </div>
         </div>
@@ -1014,7 +1019,7 @@
                 <div class="space-y-5">
                     <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-brand-border dark:border-brand-darkBorder">
                         <div class="flex items-center space-x-2.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse inline-block"></span>
                             <span class="text-sm font-bold text-brand-textDark dark:text-white">Graduated Member Async Channel</span>
                         </div>
                         <span class="text-[11px] sm:text-xs px-3 py-1 rounded-full bg-brand-goldLight dark:bg-brand-gold/15 border border-brand-border dark:border-brand-darkBorder text-brand-textMuted dark:text-neutral-300">For triage windows, see the FAQ section</span>
@@ -1187,19 +1192,8 @@
 
         // Theme Toggle Handler
         function toggleTheme() {
-            const html = document.documentElement;
-            const sunIcon = document.getElementById('sun-icon');
-            const moonIcon = document.getElementById('moon-icon');
-
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                sunIcon.classList.remove('hidden');
-                moonIcon.classList.add('hidden');
-            } else {
-                html.classList.add('dark');
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden');
-            }
+            // Icons switch via CSS (moon in light mode = "go dark", sun in dark mode = "go light")
+            document.documentElement.classList.toggle('dark');
         }
 
         // Mobile Navigation Toggle
