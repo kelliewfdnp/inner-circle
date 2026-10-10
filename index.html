@@ -1208,6 +1208,26 @@
             if (menu) menu.classList.toggle('hidden');
         }
 
+        // The FAQ is the last section, so the page may be too short to scroll its top divider
+        // up under the header. Add just enough bottom padding so FAQ lines up like the other tabs.
+        function ensureFaqScrollSlack() {
+            const faq = document.getElementById('faq');
+            const header = document.querySelector('header');
+            if (!faq || !header) return;
+            faq.style.paddingBottom = '';
+            const headerOffset = Math.floor(header.getBoundingClientRect().height) - 3;
+            const faqTop = faq.getBoundingClientRect().top + window.pageYOffset;
+            const heightFromFaqTop = document.documentElement.scrollHeight - faqTop;
+            const needed = window.innerHeight - headerOffset - heightFromFaqTop;
+            if (needed > 0) {
+                const basePad = parseFloat(getComputedStyle(faq).paddingBottom) || 0;
+                faq.style.paddingBottom = (basePad + Math.ceil(needed)) + 'px';
+            }
+        }
+        window.addEventListener('load', ensureFaqScrollSlack);
+        window.addEventListener('resize', ensureFaqScrollSlack);
+        document.addEventListener('DOMContentLoaded', ensureFaqScrollSlack);
+
         // Smooth scroll handler with navigation header offset
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
