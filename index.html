@@ -130,6 +130,14 @@
             border-color: #80142B !important;
             box-shadow: 0 8px 24px -10px rgba(128, 20, 43, 0.35);
         }
+
+        /* Scenario tab caret */
+        .scen-caret {
+            position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 6px solid transparent; border-right: 6px solid transparent;
+            border-top: 6px solid #C5A880;
+        }
     </style>
 </head>
 <body class="bg-brand-sand text-brand-textDark dark:bg-brand-darkBg dark:text-neutral-200 antialiased pt-20 transition-colors duration-300">
@@ -325,16 +333,10 @@
         </div>
 
         <!-- Story Tabs -->
-        <div class="flex flex-wrap justify-center gap-2 mb-8">
-            <button type="button" onclick="showStory(1)" id="story-tab-1" class="px-4 py-2 rounded-full text-xs font-bold tracking-wider transition-all bg-brand-gold text-brand-goldDarkText shadow-sm">
-                Story 1: Executive Burnout
-            </button>
-            <button type="button" onclick="showStory(2)" id="story-tab-2" class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-white dark:bg-brand-darkCard text-brand-textMuted dark:text-neutral-300 border border-brand-border dark:border-brand-darkBorder hover:border-brand-gold">
-                Story 2: Mineral & Sleep Crash
-            </button>
-            <button type="button" onclick="showStory(3)" id="story-tab-3" class="px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-white dark:bg-brand-darkCard text-brand-textMuted dark:text-neutral-300 border border-brand-border dark:border-brand-darkBorder hover:border-brand-gold">
-                Story 3: Biomarker Alarm
-            </button>
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <button type="button" onclick="showStory(1)" id="story-tab-1" class="relative"><span>Story 1: Executive Burnout</span><i class="scen-caret"></i></button>
+            <button type="button" onclick="showStory(2)" id="story-tab-2" class="relative"><span>Story 2: Mineral &amp; Sleep Crash</span><i class="scen-caret"></i></button>
+            <button type="button" onclick="showStory(3)" id="story-tab-3" class="relative"><span>Story 3: Biomarker Alarm</span><i class="scen-caret"></i></button>
         </div>
 
         <!-- Story Content Box -->
@@ -353,24 +355,15 @@
             </p>
         </div>
 
-        <!-- Scenario Selector Buttons -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-            <button type="button" onclick="showScenario('A')" id="scen-btn-A" class="p-3.5 rounded-xl border text-left transition-all bg-brand-goldLight dark:bg-brand-gold/20 border-brand-gold text-brand-textDark dark:text-brand-gold">
-                <span class="text-xs font-bold uppercase tracking-wider block text-brand-gold mb-0.5">Scenario A</span>
-                <span class="text-sm sm:text-base font-semibold block">Flare & Brain Fog</span>
-            </button>
-            <button type="button" onclick="showScenario('B')" id="scen-btn-B" class="p-3.5 rounded-xl border border-brand-border dark:border-brand-darkBorder bg-white dark:bg-brand-darkCard text-left transition-all text-brand-textMuted dark:text-neutral-300">
-                <span class="text-xs font-bold uppercase tracking-wider block text-neutral-400 mb-0.5">Scenario B</span>
-                <span class="text-sm sm:text-base font-semibold block">Lab Flag Spike</span>
-            </button>
-            <button type="button" onclick="showScenario('C')" id="scen-btn-C" class="p-3.5 rounded-xl border border-brand-border dark:border-brand-darkBorder bg-white dark:bg-brand-darkCard text-left transition-all text-brand-textMuted dark:text-neutral-300">
-                <span class="text-xs font-bold uppercase tracking-wider block text-neutral-400 mb-0.5">Scenario C</span>
-                <span class="text-sm sm:text-base font-semibold block">Pre-Travel Stress</span>
-            </button>
+        <!-- Scenario Selector Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <button type="button" onclick="showScenario('A')" id="scen-btn-A" class="relative"><span>Scenario A: Acute Stress &amp; Brain Fog</span><i class="scen-caret"></i></button>
+            <button type="button" onclick="showScenario('B')" id="scen-btn-B" class="relative"><span>Scenario B: Lab Marker Flagged</span><i class="scen-caret"></i></button>
+            <button type="button" onclick="showScenario('C')" id="scen-btn-C" class="relative"><span>Scenario C: Long-Haul Flight Prep</span><i class="scen-caret"></i></button>
         </div>
 
         <!-- Chat Console UI Container -->
-        <div class="min-h-[280px] bg-white dark:bg-brand-darkCard rounded-2xl p-6 border border-brand-border dark:border-brand-darkBorder shadow-sm">
+        <div class="max-w-3xl mx-auto min-h-[280px] bg-brand-sand/60 dark:bg-brand-darkCard rounded-3xl p-5 sm:p-8 border border-brand-border dark:border-brand-darkBorder shadow-sm">
             <div id="triage-console">
                 <!-- Injected via JavaScript -->
             </div>
@@ -840,28 +833,46 @@
         // Scenarios Data
         const scenariosData = {
             'A': {
-                title: "Flare & Brain Fog Triage",
-                clientMsg: "Hey Kel, woke up with sudden brain fog, digestive bloating, and mild joint aching after dinner last night. Should I be concerned or pause my current mineral protocol?",
-                time: "09:45 AM SGT",
-                triageTag: "TRIAGE RESPONSE • 11:00 AM SGT WINDOW",
-                reply: "Good morning. Don't panic—this is a classic transient immune/digestive flare, likely triggered by high-histamine or cross-reactive ingredients in dinner combined with yesterday's flight stress.<br/><br/><strong>Immediate Action Steps:</strong><br/>1. Hold morning zinc/magnesium for today to reduce digestive load.<br/>2. Drink 500ml water with a pinch of unrefined sea salt & lemon.<br/>3. Use charcoal/binder if bloating persists past noon.<br/><br/>We will reassess during our 4:00 PM window.",
-                nextCheck: "Next check-in: 4:00 PM SGT"
+                member: "Marcus T. (Inner Circle Member)",
+                time: "10:42 AM SGT",
+                clientMsg: "“Kel, I woke up this morning with severe brain fog, and after last night’s dinner my gut has been bloated, painful and inflamed. I’m starting to panic, worried that all the progress I’ve built is ruined in one go…”",
+                greeting: "Hi Marcus,",
+                intro: "First, take a deep breath. Your past progress hasn’t been undone. What you’re experiencing is a temporary histamine/inflammatory stress response, not a structural setback.",
+                stepsTitle: "Today’s 3-step action guide:",
+                steps: [
+                    "Pause solid food until 1:00 PM; sip warm electrolyte water in small amounts.",
+                    "Take 2 capsules of activated charcoal/binder (space them away from your daily medications).",
+                    "Resume your magnesium as normal this evening."
+                ],
+                closing: "We’ll review again at the 4:00 PM SGT window. Stay steady — your foundational resilience is still strong.",
+                nextCheck: "Next review: 4:00 PM SGT"
             },
             'B': {
-                title: "Lab Flag Spike Triage",
-                clientMsg: "Kel, my executive annual screening just came back and ALT/AST liver enzymes are elevated above normal range! Doctor wants me to do an ultrasound. What do you think?",
-                time: "02:15 PM SGT",
-                triageTag: "TRIAGE RESPONSE • 4:00 PM SGT WINDOW",
-                reply: "I reviewed your lab report. Notice your CK (creatine kinase) is also elevated. Did you complete a heavy resistance training session 24-48 hours before the blood draw?<br/><br/><strong>Clinical Context:</strong> Heavy muscle breakdown temporary spikes ALT/AST without liver pathology. Re-test after 4 days of complete rest before scheduling invasive imaging.",
-                nextCheck: "Next check-in: Tomorrow 11:00 AM SGT"
+                member: "Elena R. (Reserve Member)",
+                time: "09:15 AM SGT",
+                clientMsg: "“Kel, my doctor just sent me my checkup report, warning that my LDL and CRP are high and recommending I start medication right away. Should I be worried?”",
+                greeting: "Hi Elena,",
+                intro: "I’ve gone through your lab report carefully. Note that your raised hs-CRP is an isolated finding, and your triglyceride/HDL ratio is 1.2 (very good).",
+                body: "Because you had a viral infection 10 days ago, acute-phase proteins can rise temporarily. This is a normal physiological response, not chronic cardiovascular decline.",
+                recommendation: "Tell your doctor about it, and ask to retest 6 weeks after your immune recovery is complete. No need to panic.",
+                closing: "We’ll follow up on your retest timeline at the next triage window (11:00 AM SGT).",
+                nextCheck: "Next review: 11:00 AM SGT"
             },
             'C': {
-                title: "Pre-Travel Stress Triage",
-                clientMsg: "Flying to London tonight for a 5-day intense summit. Feel a tickle in my throat and fatigue creeping in. How do I prevent a breakdown?",
-                time: "10:20 AM SGT",
-                triageTag: "TRIAGE RESPONSE • 11:00 AM SGT WINDOW",
-                reply: "Let's front-load autonomic and mucosal support before boarding.<br/><br/><strong>Travel Protocol:</strong><br/>1. Take 1g Vitamin C + Liposomal Glutathione now.<br/>2. Hydrate with sodium/potassium electrolytes on the flight (no alcohol/coffee).<br/>3. Use nasal saline spray every 3 hours during flight.",
-                nextCheck: "Next check-in: London Arrival (4:00 PM SGT / 8:00 AM GMT)"
+                member: "David K. (Sanctuary Member)",
+                time: "08:30 AM SGT",
+                clientMsg: "“I’m flying from Singapore to New York tonight (an 18-hour long haul). I’m feeling a bit fatigued, and I’m worried jet lag will ruin my Thursday board presentation.”",
+                greeting: "Good morning David,",
+                intro: "Let’s lock in your long-haul flight protection plan.",
+                stepsTitle: "Flight Day Protocol:",
+                bullets: [
+                    ["Hydration:", "drink 500ml of electrolyte water every 3 hours in the cabin."],
+                    ["Light fasting:", "skip high-carb cabin meals; choose light protein and quality fats."],
+                    ["Sleep sync:", "take 3mg melatonin before bed at 10 PM JFK local time."],
+                    ["Morning light:", "get 20 minutes of outdoor sunlight early the next morning."]
+                ],
+                closing: "We’ll check in again at the 4:00 PM SGT window on your boarding prep. Safe travels!",
+                nextCheck: "Next review: 4:00 PM SGT"
             }
         };
 
@@ -915,12 +926,14 @@
         function showStory(id) {
             [1, 2, 3].forEach(i => {
                 const btn = document.getElementById(`story-tab-${i}`);
-                if (btn) {
-                    if (i === id) {
-                        btn.className = "px-4 py-2 rounded-full text-xs font-bold tracking-wider transition-all bg-brand-gold text-brand-goldDarkText shadow-sm";
-                    } else {
-                        btn.className = "px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all bg-white dark:bg-brand-darkCard text-brand-textMuted dark:text-neutral-300 border border-brand-border dark:border-brand-darkBorder hover:border-brand-gold";
-                    }
+                if (!btn) return;
+                const caret = btn.querySelector('.scen-caret');
+                if (i === id) {
+                    btn.className = "relative px-4 sm:px-5 py-2.5 rounded-xl border text-sm font-semibold transition-all bg-brand-goldLight dark:bg-brand-gold/20 border-brand-gold text-brand-textDark dark:text-brand-gold shadow-sm";
+                    if (caret) caret.classList.remove('hidden');
+                } else {
+                    btn.className = "relative px-4 sm:px-5 py-2.5 rounded-xl border text-sm font-medium transition-all border-brand-border dark:border-brand-darkBorder bg-white dark:bg-brand-darkCard text-brand-textMuted dark:text-neutral-300 hover:border-brand-gold";
+                    if (caret) caret.classList.add('hidden');
                 }
             });
 
@@ -959,45 +972,71 @@
         function showScenario(key) {
             ['A', 'B', 'C'].forEach(k => {
                 const btn = document.getElementById(`scen-btn-${k}`);
-                if (btn) {
-                    if (k === key) {
-                        btn.className = "p-3.5 rounded-xl border text-left transition-all bg-brand-goldLight dark:bg-brand-gold/20 border-brand-gold text-brand-textDark dark:text-brand-gold";
-                        btn.querySelector('span').className = "text-xs font-bold uppercase tracking-wider block text-brand-gold mb-0.5";
-                    } else {
-                        btn.className = "p-3.5 rounded-xl border border-brand-border dark:border-brand-darkBorder bg-white dark:bg-brand-darkCard text-left transition-all text-brand-textMuted dark:text-neutral-300";
-                        btn.querySelector('span').className = "text-xs font-bold uppercase tracking-wider block text-neutral-400 mb-0.5";
-                    }
+                if (!btn) return;
+                const caret = btn.querySelector('.scen-caret');
+                const label = btn.querySelector('span');
+                if (k === key) {
+                    btn.className = "relative px-4 sm:px-5 py-2.5 rounded-xl border text-sm font-semibold transition-all bg-brand-goldLight dark:bg-brand-gold/20 border-brand-gold text-brand-textDark dark:text-brand-gold shadow-sm";
+                    label.className = "";
+                    if (caret) caret.classList.remove('hidden');
+                } else {
+                    btn.className = "relative px-4 sm:px-5 py-2.5 rounded-xl border text-sm font-medium transition-all border-brand-border dark:border-brand-darkBorder bg-white dark:bg-brand-darkCard text-brand-textMuted dark:text-neutral-300 hover:border-brand-gold";
+                    label.className = "";
+                    if (caret) caret.classList.add('hidden');
                 }
             });
 
             const scen = scenariosData[key];
             const consoleEl = document.getElementById('triage-console');
-            if (consoleEl && scen) {
-                consoleEl.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="p-4 rounded-xl bg-brand-sand dark:bg-neutral-800/60 border border-brand-border dark:border-brand-darkBorder">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-xs font-bold text-brand-textMuted dark:text-neutral-400 uppercase tracking-wider">MEMBER INQUIRY</span>
-                                <span class="text-[11px] text-brand-textMuted dark:text-neutral-400">${scen.time}</span>
-                            </div>
-                            <p class="text-sm text-brand-textMuted dark:text-neutral-400 leading-relaxed">${scen.clientMsg}</p>
+            if (!consoleEl || !scen) return;
+
+            let replyBody = `<p>${scen.greeting}</p><p>${scen.intro}</p>`;
+            if (scen.body) replyBody += `<p>${scen.body}</p>`;
+            if (scen.recommendation) replyBody += `<p><strong class="text-brand-gold">Recommendation:</strong> ${scen.recommendation}</p>`;
+            if (scen.stepsTitle) replyBody += `<p class="font-bold text-brand-gold">${scen.stepsTitle}</p>`;
+            if (scen.steps) replyBody += `<ol class="list-decimal pl-5 space-y-1.5">${scen.steps.map(t => `<li>${t}</li>`).join('')}</ol>`;
+            if (scen.bullets) replyBody += `<ul class="list-disc pl-5 space-y-1.5">${scen.bullets.map(b => `<li><strong>${b[0]}</strong> ${b[1]}</li>`).join('')}</ul>`;
+            replyBody += `<p>${scen.closing}</p>`;
+
+            consoleEl.innerHTML = `
+                <div class="space-y-5">
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-brand-border dark:border-brand-darkBorder">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                            <span class="text-sm font-bold text-brand-textDark dark:text-white">Graduated Member Async Channel</span>
                         </div>
-                        
-                        <div class="p-4 sm:p-5 rounded-xl bg-white dark:bg-brand-darkCard border-2 border-brand-gold shadow-sm">
-                            <div class="flex justify-between items-center mb-3 pb-2 border-b border-brand-border dark:border-brand-darkBorder">
-                                <div class="flex items-center space-x-2">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
-                                    <span class="text-xs font-bold text-brand-crimson dark:text-brand-gold uppercase tracking-wider">${scen.triageTag}</span>
+                        <span class="text-[11px] sm:text-xs px-3 py-1 rounded-full bg-brand-goldLight dark:bg-brand-gold/15 border border-brand-border dark:border-brand-darkBorder text-brand-textMuted dark:text-neutral-300">For triage windows, see the FAQ section</span>
+                    </div>
+
+                    <div class="sm:w-[90%] p-4 sm:p-5 rounded-2xl bg-white dark:bg-neutral-800/60 border border-brand-border dark:border-brand-darkBorder shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-bold text-brand-textDark dark:text-white">${scen.member}</span>
+                            <span class="text-[11px] text-brand-textMuted dark:text-neutral-400">${scen.time}</span>
+                        </div>
+                        <p class="text-sm text-brand-textMuted dark:text-neutral-300 leading-relaxed">${scen.clientMsg}</p>
+                    </div>
+
+                    <div class="sm:w-[90%] sm:ml-auto p-4 sm:p-6 rounded-2xl bg-white dark:bg-brand-darkCard border-2 border-brand-gold/60 shadow-sm">
+                        <div class="flex items-start justify-between gap-3 pb-3 mb-4 border-b border-brand-border dark:border-brand-darkBorder">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-10 h-10 rounded-full bg-brand-gold text-brand-goldDarkText flex items-center justify-center text-xs font-serif font-bold shrink-0">KL</span>
+                                <div>
+                                    <span class="block text-sm font-bold text-brand-textDark dark:text-white">Kel Liew</span>
+                                    <span class="block text-[11px] sm:text-xs text-brand-textMuted dark:text-neutral-400">Functional Blood Tests &amp; Nutrigenomics (Functional Health Practitioner)</span>
                                 </div>
-                                <span class="text-[11px] font-semibold text-brand-textMuted dark:text-neutral-400">${scen.nextCheck}</span>
                             </div>
-                            <div class="text-xs sm:text-sm text-brand-crimson dark:text-neutral-200 leading-relaxed space-y-2">
-                                ${scen.reply}
-                            </div>
+                            <span class="hidden sm:inline-block text-[10px] font-bold px-2.5 py-1 rounded-md bg-brand-goldLight dark:bg-brand-gold/15 text-brand-gold whitespace-nowrap">Clinical Triage Guidance</span>
+                        </div>
+                        <div class="text-xs sm:text-sm text-brand-textDark dark:text-neutral-200 leading-relaxed space-y-3">
+                            ${replyBody}
+                        </div>
+                        <div class="flex flex-wrap justify-between gap-2 mt-5 pt-3 border-t border-brand-border dark:border-brand-darkBorder text-[11px]">
+                            <span class="text-brand-textMuted dark:text-neutral-400">Retained Triage Continuity</span>
+                            <span class="font-semibold text-brand-crimson dark:text-brand-gold">${scen.nextCheck}</span>
                         </div>
                     </div>
-                `;
-            }
+                </div>
+            `;
         }
 
         // Value Calculator
