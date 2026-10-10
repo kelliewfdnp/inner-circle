@@ -155,13 +155,14 @@
                 </div>
 
                 <!-- Navigation Links matching PDF Header -->
-                <nav class="hidden md:flex items-center space-x-7 text-xs font-semibold tracking-wider text-brand-textMuted dark:text-neutral-300">
+                <nav class="hidden md:flex items-center space-x-4 lg:space-x-7 text-xs font-semibold tracking-wider text-brand-textMuted dark:text-neutral-300">
                     <a href="#ecosystem" class="hover:text-brand-gold transition-colors">ECOSYSTEM</a>
                     <a href="#stories" class="hover:text-brand-gold transition-colors">STORIES</a>
                     <a href="#triage" class="hover:text-brand-gold transition-colors">SIMULATOR</a>
                     <a href="#reflections" class="hover:text-brand-gold transition-colors">VAULT</a>
                     <a href="#levels" class="hover:text-brand-gold transition-colors">ACCESS</a>
                     <a href="#value" class="hover:text-brand-gold transition-colors">VALUE</a>
+                    <a href="#faq" class="hover:text-brand-gold transition-colors">FAQ</a>
                 </nav>
 
                 <!-- Action Button & Theme Toggle -->
@@ -191,6 +192,7 @@
             <a href="#reflections" onclick="toggleMobileMenu()" class="block text-xs font-semibold tracking-wider hover:text-brand-gold">VAULT</a>
             <a href="#levels" onclick="toggleMobileMenu()" class="block text-xs font-semibold tracking-wider hover:text-brand-gold">ACCESS</a>
             <a href="#value" onclick="toggleMobileMenu()" class="block text-xs font-semibold tracking-wider hover:text-brand-gold">VALUE</a>
+            <a href="#faq" onclick="toggleMobileMenu()" class="block text-xs font-semibold tracking-wider hover:text-brand-gold">FAQ</a>
             <button onclick="openModal(); toggleMobileMenu();" class="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-xs font-bold tracking-wider uppercase bg-brand-gold text-brand-goldDarkText">
                 <svg class="w-3.5 h-3.5 mr-1.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6.707 6.707a1 1 0 00-1.414-1.414L9 11.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                 Readiness Check
@@ -1215,9 +1217,9 @@
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
                             e.preventDefault();
-                            // Land the section's top divider exactly on the header's bottom border
+                            // Tuck the section's top divider fully under the header so no stray line shows below it
                             const header = document.querySelector('header');
-                            const headerOffset = header ? header.getBoundingClientRect().height - 1 : 80;
+                            const headerOffset = header ? Math.floor(header.getBoundingClientRect().height) - 3 : 77;
                             const elementPosition = targetElement.getBoundingClientRect().top;
                             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
