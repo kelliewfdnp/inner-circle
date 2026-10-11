@@ -110,25 +110,31 @@
             font-weight: 400;
         }
 
-        /* Pricing card selected state (3px border, no layout shift) */
+        /* Pricing cards: constant 2px border; selection is drawn with colour + box-shadow only (no layout shift) */
         .pricing-card {
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .pricing-card:focus { outline: none; }
-        .pricing-card.is-selected {
-            border-width: 3px !important;
-            border-style: solid !important;
+        .pricing-card:focus,
+        .pricing-card:focus-visible { outline: none; }
+        .pricing-card.pricing-card-selected {
             border-color: #C5A880 !important;
-            padding: 22px !important; /* 24px minus the 2px extra border */
-            box-shadow: 0 8px 24px -12px rgba(197, 168, 128, 0.25);
+            box-shadow:
+                0 0 0 1px #C5A880,
+                0 0 0 4px rgba(197, 168, 128, 0.2),
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
         }
 
-        /* Selected Phase Infinity card: crimson border in light mode only (Phases 01-03 stay gold) */
+        /* Ecosystem cards (light mode): same 2px neutral border at rest; selection changes colour only + soft 4px glow */
+        html:not(.dark) .phase-card.phase-selected {
+            border-color: #C5A880 !important;
+            box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.18);
+        }
         html:not(.dark) #phase-card-inf.phase-selected {
             border-color: #80142B !important;
-            box-shadow: 0 8px 24px -12px rgba(128, 20, 43, 0.2);
+            box-shadow: 0 0 0 2px rgba(128, 20, 43, 0.16);
         }
 
         /* Scenario tab caret */
@@ -140,9 +146,6 @@
         }
 
         /* Selected ecosystem card: gold shadow + pointer to the detail panel */
-        .phase-card.phase-selected {
-            box-shadow: 0 10px 24px -14px rgba(197, 168, 128, 0.32);
-        }
         .phase-card.phase-selected::after {
             content: '';
             position: absolute; left: 50%; bottom: -12px; transform: translateX(-50%);
@@ -157,8 +160,7 @@
         }
 
         /* Softer glows in dark mode */
-        html.dark .pricing-card.is-selected { box-shadow: 0 8px 24px -12px rgba(197, 168, 128, 0.1); }
-        html.dark .phase-card.phase-selected { box-shadow: 0 10px 24px -14px rgba(197, 168, 128, 0.12); }
+        html.dark .phase-card.phase-selected { box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.2); }
     </style>
 </head>
 <body class="bg-brand-sand text-brand-textDark dark:bg-brand-darkBg dark:text-neutral-200 antialiased pt-20 transition-colors duration-300">
@@ -423,7 +425,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             <!-- Level 1: The Access -->
-            <div tabindex="0" data-plan="access" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border border-brand-border dark:border-brand-darkBorder flex flex-col justify-between shadow-sm">
+            <div tabindex="0" data-plan="access" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border-2 border-brand-border dark:border-brand-darkBorder flex flex-col justify-between shadow-sm">
                 <div>
                     <span class="text-xs font-bold text-brand-gold uppercase tracking-wider block mb-1">LEVEL 01</span>
                     <h3 class="text-2xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Access</h3>
@@ -450,7 +452,7 @@
             </div>
 
             <!-- Level 2: The Reserve (MOST SELECTED) -->
-            <div tabindex="0" data-plan="reserve" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border border-brand-border dark:border-brand-darkBorder flex flex-col justify-between relative shadow-sm">
+            <div tabindex="0" data-plan="reserve" class="pricing-card pricing-card-selected bg-white dark:bg-brand-darkCard rounded-2xl p-6 border-2 border-brand-border dark:border-brand-darkBorder flex flex-col justify-between relative shadow-sm">
                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-md bg-brand-gold text-brand-goldDarkText text-xs font-bold uppercase tracking-wider">
                     MOST SELECTED
                 </div>
@@ -481,7 +483,7 @@
             </div>
 
             <!-- Level 3: The Sanctuary -->
-            <div tabindex="0" data-plan="sanctuary" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border border-brand-border dark:border-brand-darkBorder flex flex-col justify-between shadow-sm">
+            <div tabindex="0" data-plan="sanctuary" class="pricing-card bg-white dark:bg-brand-darkCard rounded-2xl p-6 border-2 border-brand-border dark:border-brand-darkBorder flex flex-col justify-between shadow-sm">
                 <div>
                     <span class="text-xs font-bold text-brand-gold uppercase tracking-wider block mb-1">LEVEL 03</span>
                     <h3 class="text-2xl font-serif font-bold text-brand-textDark dark:text-white mb-2">The Sanctuary</h3>
@@ -546,9 +548,9 @@
             </div>
 
             <!-- What You Avoid Callout -->
-            <div class="bg-brand-sand dark:bg-neutral-800/50 p-4 rounded-xl border border-brand-border dark:border-brand-darkBorder mb-6">
-                <span class="text-xs font-bold uppercase tracking-wider block text-brand-gold mb-1">WHAT YOU AVOID:</span>
-                <p class="text-xs sm:text-sm text-brand-textMuted dark:text-neutral-300 leading-relaxed">
+            <div class="bg-[#F3EEE8] dark:bg-neutral-800/50 p-4 rounded-xl border border-brand-border dark:border-brand-darkBorder mb-6">
+                <span class="text-xs sm:text-sm font-bold block text-brand-crimson dark:text-brand-gold mb-1.5">What you avoid:</span>
+                <p class="text-xs sm:text-sm text-brand-textDark dark:text-neutral-300 leading-relaxed">
                     Repeated $300-$500 isolated practitioner visits, unnecessary emergency panic, uncoordinated supplement changes, and loss of biological momentum.
                 </p>
             </div>
@@ -568,7 +570,7 @@
             <!-- Bottom Quote -->
             <div class="text-center mt-6 pt-6 border-t border-brand-border dark:border-brand-darkBorder">
                 <span class="text-xs font-bold uppercase tracking-widest text-brand-gold block mb-1">THE TRUE RETURN</span>
-                <p class="text-sm sm:text-base font-serif italic text-brand-textDark dark:text-neutral-300">
+                <p class="text-base sm:text-lg font-serif italic text-brand-textDark dark:text-neutral-300">
                     "Immediate clarity within hours instead of days of anxiety. You've done the work—The Inner Circle keeps you anchored."
                 </p>
             </div>
@@ -1247,25 +1249,23 @@
             });
         });
 
-        // Pricing card selection: click/tap inside a card to highlight it with a 3px border
+        // Pricing card selection: The Reserve is pre-selected; tapping another tier moves the highlight to it
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.pricing-card');
             const select = function(card) {
-                cards.forEach(function(c) { c.classList.toggle('is-selected', c === card); });
+                cards.forEach(function(c) { c.classList.toggle('pricing-card-selected', c === card); });
             };
             cards.forEach(function(card) {
                 card.addEventListener('click', function() { select(card); });
                 card.addEventListener('focus', function() { select(card); });
             });
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.pricing-card') || e.target.closest('#readiness-modal')) return;
-                cards.forEach(function(c) { c.classList.remove('is-selected'); });
-            });
+            const reserve = document.querySelector('.pricing-card[data-plan="reserve"]');
+            if (reserve) select(reserve);
         });
 
         // Initialize component states on load
         window.onload = function() {
-            selectPhase('inf');
+            selectPhase('1');
             showStory(1);
             showScenario('A');
             updateCalculator();
