@@ -11,7 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Noto+Serif+SC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -36,7 +36,7 @@
                         }
                     },
                     fontFamily: {
-                        serif: ['Cormorant Garamond', 'serif'],
+                        serif: ['Cormorant Garamond', 'Noto Serif SC', 'serif'],
                         sans: ['Plus Jakarta Sans', 'sans-serif']
                     }
                 }
@@ -165,8 +165,41 @@
         /* Theme toggle icons (24x24 grid, 2px stroke, round caps) */
         .theme-icon{display:inline-block;width:1em;height:1em;background-color:currentColor;
           -webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
-        .icon-moon{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z'/%3E%3C/svg%3E")}
-        .icon-sun{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4.6' fill='black'/%3E%3Cpath d='M12 4.4V1.8M12 19.6v2.6M4.4 12H1.8M19.6 12h2.6M6.63 6.63L4.79 4.79M17.37 17.37l1.84 1.84M6.63 17.37l-1.84 1.84M17.37 6.63l1.84-1.84' stroke='black' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E")}
+        .icon-moon{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z'/%3E%3C/svg%3E")}
+        .icon-sun{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4.14' fill='black'/%3E%3Cpath d='M12 4.4V1.8M12 19.6v2.6M4.4 12H1.8M19.6 12h2.6M6.63 6.63L4.79 4.79M17.37 17.37l1.84 1.84M6.63 17.37l-1.84 1.84M17.37 6.63l1.84-1.84' stroke='black' stroke-width='1.75' stroke-linecap='round' fill='none'/%3E%3C/svg%3E")}
+
+        /* Pill status dot: only the ring pulses */
+        @keyframes pill-ping { 0% { transform: scale(1); opacity: .7 } 75%, 100% { transform: scale(1.9); opacity: 0 } }
+        .pulse-ring { animation: pill-ping 1.5s cubic-bezier(0, 0, .2, 1) infinite; }
+
+        /* Calculator sliders: gold fill up to the handle, readable track in both modes */
+        .calc-slider {
+            -webkit-appearance: none; appearance: none;
+            width: 100%; height: 22px; margin: 0; padding: 0;
+            background: transparent; outline: none; cursor: pointer;
+            --p: 0; --track: #E6DCCB;
+            --fill-stop: calc(11px + var(--p) * (100% - 22px));
+        }
+        html.dark .calc-slider { --track: #3B3733; }
+        .calc-slider::-webkit-slider-runnable-track {
+            height: 6px; border-radius: 9999px;
+            background: linear-gradient(to right, #C5A880 0, #C5A880 var(--fill-stop), var(--track) var(--fill-stop), var(--track) 100%);
+        }
+        .calc-slider::-moz-range-track {
+            height: 6px; border-radius: 9999px;
+            background: linear-gradient(to right, #C5A880 0, #C5A880 var(--fill-stop), var(--track) var(--fill-stop), var(--track) 100%);
+        }
+        .calc-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 22px; height: 22px; margin-top: -8px; border-radius: 50%;
+            background: #fff; border: 1.5px solid #C5A880;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        }
+        .calc-slider::-moz-range-thumb {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #fff; border: 1.5px solid #C5A880;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        }
     </style>
 </head>
 <body class="bg-brand-sand text-brand-textDark dark:bg-brand-darkBg dark:text-neutral-200 antialiased pt-20 transition-colors duration-300">
@@ -176,10 +209,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Brand Logo / Title -->
-                <div class="flex items-center space-x-3">
-                    <a href="#" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' });" class="block cursor-pointer" aria-label="Back to top">
-                        <span class="block text-[11px] uppercase tracking-[0.2em] text-brand-gold font-bold">Radical Wellness</span>
-                        <span class="text-lg sm:text-xl font-serif font-bold text-brand-textDark dark:text-white tracking-wide">THE INNER CIRCLE</span>
+                <div class="flex items-center">
+                    <a href="#" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' });" class="flex items-center space-x-3 group cursor-pointer" aria-label="Back to top">
+                        <div class="w-10 h-10 rounded-full bg-brand-crimson dark:bg-brand-gold/20 border border-brand-crimson dark:border-brand-gold/40 flex items-center justify-center font-serif text-lg font-bold text-white dark:text-brand-gold transition-transform group-hover:scale-105" aria-hidden="true">
+                            <span class="block leading-none" style="transform: translateY(1.5px);">萃</span>
+                        </div>
+                        <div>
+                            <div class="text-[10px] tracking-[0.25em] text-brand-gold font-bold uppercase">Radical Wellness</div>
+                            <div class="text-[17px] leading-tight font-sans text-brand-textMuted dark:text-neutral-300 font-normal">The Inner Circle</div>
+                        </div>
                     </a>
                 </div>
 
@@ -232,7 +270,10 @@
     <!-- HERO SECTION -->
     <section class="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
         <div class="inline-flex items-center space-x-2 px-5 py-1.5 rounded-full border border-[#D8C9AE] dark:border-brand-gold/40 bg-brand-goldLight dark:bg-brand-gold/20 text-[#5C4825] dark:text-brand-gold text-[11px] uppercase tracking-[0.2em] font-semibold mb-6">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+            <span class="relative flex w-2 h-2 flex-shrink-0" aria-hidden="true">
+                <span class="pulse-ring absolute inset-0 rounded-full bg-emerald-500"></span>
+                <span class="relative block w-2 h-2 rounded-full bg-emerald-500"></span>
+            </span>
             <span>INVITATION ONLY • POST-PROGRAM HEALTH CONTINUITY</span>
         </div>
 
@@ -540,7 +581,7 @@
                         <label class="text-xs sm:text-sm font-semibold text-brand-textDark dark:text-neutral-300">Uncertainty Moments / Year (Symptoms/Labs)</label>
                         <span id="calc-moments-val" class="text-xs sm:text-sm font-bold text-brand-gold">6 MOMENTS</span>
                     </div>
-                    <input type="range" id="calc-moments" min="1" max="15" value="6" oninput="updateCalculator()" class="w-full accent-brand-gold cursor-pointer">
+                    <input type="range" id="calc-moments" min="1" max="15" value="6" oninput="updateCalculator()" class="calc-slider">
                 </div>
 
                 <!-- Control 2 -->
@@ -549,7 +590,7 @@
                         <label class="text-xs sm:text-sm font-semibold text-brand-textDark dark:text-neutral-300">Panic Clinic / Emergency Visits Avoided</label>
                         <span id="calc-visits-val" class="text-xs sm:text-sm font-bold text-brand-gold">2 VISITS</span>
                     </div>
-                    <input type="range" id="calc-visits" min="0" max="8" value="2" oninput="updateCalculator()" class="w-full accent-brand-gold cursor-pointer">
+                    <input type="range" id="calc-visits" min="0" max="8" value="2" oninput="updateCalculator()" class="calc-slider">
                 </div>
             </div>
 
@@ -735,18 +776,18 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-brand-border/60 dark:border-brand-darkBorder/60">
                 <!-- Left Column: Branding & Practitioner Title -->
                 <div>
-                    <h4 class="font-serif text-lg sm:text-xl font-bold text-brand-textDark dark:text-white tracking-wide">
-                        Radical Wellness &amp; The Inner Circle
+                    <h4 class="font-sans text-xl font-medium text-brand-gold leading-tight">
+                        <span class="uppercase tracking-[0.08em]">Radical Wellness</span> &amp; The Inner Circle
                     </h4>
-                    <p class="text-xs text-brand-textMuted dark:text-neutral-400 mt-1">
+                    <p class="text-sm text-brand-textMuted dark:text-neutral-400 mt-2">
                         Functional Health Practitioner | FDNP, FBCS | Kel Liew
                     </p>
                 </div>
 
                 <!-- Right Column: Substack Link & Invitation Badge -->
-                <div class="flex items-center space-x-6 text-xs">
+                <div class="flex items-center space-x-6 text-sm">
                     <a href="https://kelliewfdnp.substack.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center font-semibold text-brand-textDark dark:text-neutral-200 hover:text-brand-gold transition-colors">
-                        <svg class="w-3.5 h-3.5 mr-1.5 text-brand-textMuted dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        <svg class="w-4 h-4 mr-1.5 text-brand-textMuted dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         Substack
                     </a>
                     <span class="text-brand-textMuted dark:text-neutral-400 font-normal">
@@ -1072,6 +1113,11 @@
 
             const moments = parseInt(momentsInput.value, 10);
             const visits = parseInt(visitsInput.value, 10);
+
+            [momentsInput, visitsInput].forEach(function(el) {
+                const min = parseFloat(el.min), max = parseFloat(el.max);
+                el.style.setProperty('--p', (parseFloat(el.value) - min) / (max - min));
+            });
 
             document.getElementById('calc-moments-val').innerText = `${moments} MOMENT${moments > 1 ? 'S' : ''}`;
             document.getElementById('calc-visits-val').innerText = `${visits} VISIT${visits > 1 ? 'S' : ''}`;
